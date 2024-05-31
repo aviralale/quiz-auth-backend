@@ -49,11 +49,14 @@ EXTERNAL_APPS = [
     "rest_framework",
     "quiz",
     'accounts',
+    'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,12 +149,15 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
-LOGIN_URL = '/admin/login/'  # or another login URL
+LOGIN_URL = '/api/users/login/'  # or another login URL
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Adjust the port as per your React development server
+]

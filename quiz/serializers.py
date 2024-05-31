@@ -23,11 +23,17 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
+    average_score = serializers.SerializerMethodField()
 
     class Meta:
         model = Quiz
-        fields = ['id', 'title', 'description', 'thumbnail', 'questions', 'created_by', 'created_at', 'performance']
-        read_only_fields = ['created_by', 'created_at']
+        fields = ['id', 'title', 'description', 'thumbnail', 'questions', 'created_by', 'created_at', 'performance', 'average_score']
+        read_only_fields = ['created_by', 'created_at', 'performance', 'average_score']
+
+    def get_average_score(self, obj):
+        # Retrieve the related QuizPerformance object and return the average score
+        performance = QuizPerformance.objects.filter(quiz=obj).first()
+        return performance.average_score if performance else None
 
     def create(self, validated_data):
         questions_data = validated_data.pop('questions')
