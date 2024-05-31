@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import CustomUser, QuizPerformance
+from accounts.models import CustomUser
 
 class Quiz(models.Model):
     title = models.CharField(max_length=255)
@@ -7,12 +7,10 @@ class Quiz(models.Model):
     thumbnail = models.ImageField(upload_to='quiz_thumbnails/', blank=True, null=True)
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    performance = models.OneToOneField(QuizPerformance, related_name='related_quiz', on_delete=models.CASCADE, null=True, blank=True)
+    performance = models.OneToOneField('accounts.QuizPerformance', related_name='related_quiz', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title
-
-
 
 class Question(models.Model):
     QUESTION_TYPES = (

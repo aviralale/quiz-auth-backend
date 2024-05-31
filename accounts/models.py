@@ -1,9 +1,6 @@
-# accounts/models.py
-
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 import uuid
-# from quiz.models import Quiz
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -30,7 +27,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=150, unique=True, default=uuid.uuid4)
-    pfp = models.ImageField(upload_to='user_avatar/',null=True,blank=True, default='user_avatar/default.jpg')
+    pfp = models.ImageField(upload_to='user_avatar/', null=True, blank=True, default='user_avatar/default.jpg')
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)

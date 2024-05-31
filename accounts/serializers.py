@@ -1,7 +1,19 @@
 # accounts/serializers.py
 
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, UserQuizHistory, QuizPerformance
+import uuid
+from quiz.models import Quiz
+
+class UserQuizHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserQuizHistory
+        fields = ['id', 'quiz', 'score', 'played_at']
+
+class QuizPerformanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizPerformance
+        fields = ['id', 'quiz', 'total_players', 'average_score']
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:

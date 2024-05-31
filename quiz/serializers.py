@@ -26,7 +26,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['id', 'title', 'description', 'thumbnail', 'questions', 'created_by', 'created_at']
+        fields = ['id', 'title', 'description', 'thumbnail', 'questions', 'created_by', 'created_at', 'performance']
         read_only_fields = ['created_by', 'created_at']
 
     def create(self, validated_data):

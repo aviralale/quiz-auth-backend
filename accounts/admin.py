@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
-from .models import CustomUser
+from .models import CustomUser, QuizPerformance, UserQuizHistory
 
 class CustomUserAdmin(BaseUserAdmin):
     model = CustomUser
@@ -38,3 +38,11 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.site_header = "QUIZ MANAGEMENT"
 admin.site.site_title = "Quiz Management Portal"
 admin.site.index_title = "Welcome to the Quiz Management Portal"
+
+@admin.register(QuizPerformance)
+class QuizPerformanceAdmin(admin.ModelAdmin):
+    list_display = ( 'quiz', 'total_players', 'average_score')
+
+@admin.register(UserQuizHistory)
+class UserQuizHistoryAdmin(admin.ModelAdmin):
+    list_display = ('user', 'quiz', 'score', 'played_at')
