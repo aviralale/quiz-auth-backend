@@ -2,15 +2,15 @@
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Quiz, Question, Option
+from .models import Quiz
 from accounts.models import UserQuizHistory, QuizPerformance
-from .serializers import QuizSerializer, QuestionSerializer, OptionSerializer
-from accounts.serializers import UserQuizHistorySerializer
+from .serializers import QuizSerializer
 
 class QuizListCreateView(generics.ListCreateAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
         quiz = serializer.save(created_by=self.request.user)
@@ -20,9 +20,11 @@ class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.AllowAny]
 
 class QuizPlayView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.AllowAny]
 
     def post(self, request, pk):
         quiz = Quiz.objects.get(pk=pk)

@@ -24,6 +24,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
     average_score = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
 
     class Meta:
         model = Quiz
@@ -34,6 +35,9 @@ class QuizSerializer(serializers.ModelSerializer):
         # Retrieve the related QuizPerformance object and return the average score
         performance = QuizPerformance.objects.filter(quiz=obj).first()
         return performance.average_score if performance else None
+    
+    def get_created_by(self, obj):
+        return obj.created_by.username if obj.created_by else None
 
     def create(self, validated_data):
         questions_data = validated_data.pop('questions')
